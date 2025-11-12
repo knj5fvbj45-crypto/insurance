@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>عروض التأمين | شركة جدحفص</title>
+  <link href="https://fonts.googleapis.com/css2?family=Reem+Kufi+Fun&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Reem Kufi Fun', sans-serif;
+      background-color: #f8cde0;
+      color: #4a4a4a;
+    }
+
+    header {
+      background-color: #f4b6d4;
+      padding: 20px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+    .header-content {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      flex-direction: row-reverse;
+    }
+
+    .logo-img {
+      height: 60px;
+      border-radius: 10px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.1);
+    }
+
+    .title {
+      font-size: 2.5em;
+      font-weight: bold;
+      color: #4a4a4a;
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      background-color: white;
+      padding: 10px 0;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    nav a {
+      margin: 10px 15px;
+      text-decoration: none;
+      color: #d63384;
+      font-size: 1.2em;
+      font-weight: bold;
+      transition: all 0.3s ease;
+    }
+
+    nav a:hover {
+      background-color: #d63384;
+      color: white;
+      padding: 8px 12px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #d63384;
+    }
+
+    .offers-section {
+      padding: 40px 20px;
+      text-align: center;
+    }
+
+    .offers-section h1 {
+      color: #d63384;
+      font-size: 2em;
+      margin-bottom: 30px;
+    }
+
+    .offer-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 30px;
+    }
+
+    .offer-card {
+      background-color: #fff0f6;
+      border-radius: 15px;
+      box-shadow: 0 0 15px rgba(255, 182, 193, 0.4);
+      padding: 20px;
+      width: 280px;
+      text-align: center;
+    }
+
+    .offer-card h3 {
+      color: #d63384;
+      margin-bottom: 10px;
+    }
+
+    .offer-card p {
+      font-size: 1em;
+      margin-bottom: 15px;
+    }
+
+    .offer-card button {
+      background-color: #d63384;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .offer-card button:hover {
+      background-color: #c02570;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background-color: #f4b6d4;
+      font-size: 1em;
+      margin-top: 50px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-content">
+      <img src="logo.jpg" alt="شعار الشركة" class="logo-img">
+      <div class="title">شركة جدحفص للتأمين</div>
+    </div>
+  </header>
+
+   <nav>
+    <a href="index.html">الصفحة الرئيسية</a>
+    <a href="people-insurance.html">تأمين الأشخاص</a>
+    <a href="fire-insurance.html">تأمين الحريق</a>
+    <a href="theft-transport-insurance.html">تأمين أخطار السرقة و نقل البضائع</a>
+    <a href="vehicle-insurance.html">تأمين الطرف الثالث للمركبات</a>
+    <a href="work-injury-insurance.html">تأمين إصابات العمل</a>
+    <a href="comprehensive-insurance.html">تأمين شامل</a>
+    <a href="about.html">من نحن</a>
+    <a href="contact.html">اتصل بنا</a>
+<a href="offers.html">العروض</a>
+  </nav>
+
+
+  <section class="offers-section">
+    <h1>عروضنا الحالية</h1>
+    <div class="offer-grid">
+      <div class="offer-card">
+        <h3>خصم 20% على تأمين المركبات</h3>
+        <p>احصل على تغطية شاملة بسعر أقل لفترة محدودة.</p>
+        <button onclick="location.href='vehicle-insurance.html'">تفاصيل أكثر</button>
+      </div>
+      <div class="offer-card">
+        <h3>تأمين شامل للأسر</h3>
+        <p>باقة تأمين خاصة للعائلات تشمل الحريق، السرقة، والصحة.</p>
+        <button onclick="location.href='comprehensive-insurance.html'">تفاصيل أكثر</button>
+      </div>
+      <div class="offer-card">
+        <h3>تأمين الشركات الصغيرة</h3>
+        <p>حماية كاملة لأعمالك الصغيرة بأسعار تنافسية.</p>
+        <button onclick="location.href='contact.html'">تفاصيل أكثر</button>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    جميع الحقوق محفوظة © شركة جدحفص للتأمين
+  </footer>
+</body>
+</html>
