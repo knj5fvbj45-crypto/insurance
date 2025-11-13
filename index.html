@@ -357,13 +357,16 @@
       position: relative;
     }
 
-    .contact-teaser {
-      background-color: #f3a9c7;
-      color: white;
-      text-align: center;
-      padding: 30px 20px;
-      font-size: 1.2em;
-    }
+  .contact-teaser {
+  background-color: #f3a9c7;
+  color: #4a4a4a;
+  text-align: center;
+  padding: 30px 20px;
+  font-size: 1.6em;
+  font-family: 'Reem Kufi Fun', sans-serif;
+  text-shadow: 0 0 6px #d63384;
+}
+
 
     .contact-teaser button {
       margin-top: 15px;
@@ -473,57 +476,113 @@
     تأسست بتاريخ: 1-9-2024
   </footer>
 
-  <script>
-    window.onload = function () {
-      const saved = JSON.parse(localStorage.getItem("comments") || "[]");
-      saved.forEach(comment => renderComment(comment, false));
-    };
+<!-- Firebase SDK for browser -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 
-    function addComment() {
-      const name = document.getElementById("nameInput").value.trim();
-      const text = document.getElementById("commentInput").value.trim();
-      if (text !== "") {
-        const comment = {
-          name: name || "مجهول",
-          text: text,
-          time: new Date().toLocaleString("ar-EG")
-        };
-        renderComment(comment, true);
-        document.getElementById("commentInput").value = "";
-        document.getElementById("nameInput").value = "";
-      }
-    }
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyAaSR9zbyw7d_jNgHBcHTrC2TPRxSHoFoM",
+    authDomain: "insurancecomments-f373a.firebaseapp.com",
+    projectId: "insurancecomments-f373a",
+    storageBucket: "insurancecomments-f373a.appspot.com",
+    messagingSenderId: "404149573052",
+    appId: "1:404149573052:web:f58cc9b5eedd4ca08e47b9"
+  };
 
-    function renderComment(comment, save = false) {
-      const commentList = document.getElementById("commentList");
-      const newComment = document.createElement("div");
-      newComment.className = "comment";
-      newComment.innerHTML = `
-        <strong>${comment.name}</strong> <span style="font-size: 0.8em; color: gray;">${comment.time}</span><br>
-        <span>${comment.text}</span>
-        <button onclick="deleteComment(this)" style="float:left; background:#d63384; color:white; border:none; border-radius:10px; padding:5px 10px; margin-top:10px; cursor:pointer;">حذف</button>
-      `;
-      commentList.insertBefore(newComment, commentList.firstChild);
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
 
-      if (save) {
-        const comments = JSON.parse(localStorage.getItem("comments") || "[]");
-        comments.unshift(comment);
-        localStorage.setItem("comments", JSON.stringify(comments));
-      }
-    }
+  // Submit comment
+  function addComment() {
+    const name = document.getElementById("nameInput").value.trim();
+    const message = document.getElementById("commentInput").value.trim();
 
-    function deleteComment(button) {
-      const commentDiv = button.parentElement;
-      const name = commentDiv.querySelector("strong").textContent;
-      const time = commentDiv.querySelector("span").textContent;
-      const text = commentDiv.querySelectorAll("span")[1].textContent;
+    if (message === "") return;
 
-      commentDiv.remove();
+    db.collection("comments").add({
+      name: name || "مجهول",
+      message: message,
+      timestamp: firebase.firestore.FieldValue.serverTimestamp()
+    }).then(() => {
+      document.getElementById("commentInput").value = "";
+      loadComments(); // reload after adding
+    }).catch(error => {
+      console.error("Error adding comment:", error);
+    });
+  }
 
-      const comments = JSON.parse(localStorage.getItem("comments") || "[]");
-      const updated = comments.filter(c => !(c.name === name && c.time === time && c.text === text));
-      localStorage.setItem("comments", JSON.stringify(updated));
-    }
-  </script>
+  // Load comments
+  function loadComments() {
+    const container = document.getElementById("commentList");
+    container.innerHTML = "";
+
+    db.collection("comments")
+      .orderBy("timestamp", "desc")
+      .get()
+      .then(snapshot => {
+        if (snapshot.empty) {
+          container.innerHTML = '<p class="empty-message">لا توجد تعليقات بعد.</p>';
+          return;
+        }
+
+        snapshot.forEach(doc => {
+          const data = doc.data();
+          const timestamp = data.timestamp?.toDate();
+          const formattedTime = timestamp
+            ? timestamp.toLocaleString('ar-EG', {
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric',
+                hour: 'numeric',
+                minute: '2-digit',
+                hour12: true
+              })
+            : 'الوقت غير متوفر';
+
+          const div = document.createElement("div");
+          div.className = "comment";
+          div.innerHTML = `
+            <strong>${data.name}</strong>
+            <p>${data.message}</p>
+            <small style="color:#888;">${formattedTime}</small><br>
+            <button onclick="deleteComment('${doc.id}')" style="margin-top:5px;color:#d63384;background:none;border:none;cursor:pointer;">🗑 حذف</button>
+          `;
+          container.appendChild(div);
+        });
+      })
+      .catch(error => {
+        console.error("Error loading comments:", error);
+      });
+  }
+
+  // Delete comment
+  function deleteComment(id) {
+    db.collection("comments").doc(id).delete()
+      .then(() => {
+        loadComments(); // refresh after deletion
+      })
+      .catch(error => {
+        console.error("Error deleting comment:", error);
+      });
+  }
+
+  // Load comments on page load
+  window.onload = loadComments;
+</script>
+
+<!-- Optional: Style empty message -->
+<style>
+  .empty-message {
+    color: #d63384;
+    font-family: 'Reem Kufi Fun', sans-serif;
+    text-align: center;
+    margin-top: 20px;
+    animation: fadeIn 0.6s ease-in-out;
+  }
+</style>
+
 </body>
 </html>
+
+ 
